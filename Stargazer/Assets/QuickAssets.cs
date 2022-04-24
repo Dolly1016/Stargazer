@@ -18,7 +18,8 @@ namespace Stargazer.Assets
         {
             var prefab = GetMinigameOriginalPrefab(taskTypes,arg);
             if (prefab == null) return null;
-            return UnityEditor.PrefabUtility.SaveAsPrefabAsset(prefab.gameObject, "Stargazer/Task/" + prefab.name + ".prefab").GetComponent<Minigame>();
+            //return UnityEditor.PrefabUtility.SaveAsPrefabAsset(prefab.gameObject, "Stargazer/Task/" + prefab.name + ".prefab").GetComponent<Minigame>();
+            return prefab;
         }
 
         private static Minigame? GetMinigameOriginalPrefab(TaskTypes taskTypes,int arg = 0)
