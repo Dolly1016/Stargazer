@@ -71,5 +71,10 @@ namespace Stargazer
             var il2cppArray = (Il2CppStructArray<byte>)data;
             return iCall_LoadImage.Invoke(tex.Pointer, il2cppArray.Pointer, markNonReadable);
         }
+
+        public static bool InModMap()
+        {
+            return Behaviours.CustomShipStatus.Instance != null;
+        }
     }
 }

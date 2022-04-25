@@ -76,8 +76,9 @@ namespace Stargazer.Map.Builder
                 counterArea.RoomType = RoomId;
                 counterArea.name = Name;
                 counterArea.transform.SetParent(shipStatus.MapPrefab.countOverlay.transform);
-                counterArea.transform.localPosition = basePos + new Vector2(-0.8f, 0.4015f) + RoomOverray.CounterOffset;
-                
+                counterArea.transform.localPosition = (basePos / 0.75f) + RoomOverray.CounterOffset;
+                counterArea.pool = shipStatus.MapPrefab.countOverlay.gameObject.GetComponent<ObjectPoolBehavior>();
+
                 shipStatus.MapPrefab.countOverlay.CountAreas = Helpers.AddToReferenceArray(
                     shipStatus.MapPrefab.countOverlay.CountAreas, counterArea
                     );

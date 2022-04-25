@@ -8,9 +8,12 @@ namespace Stargazer.Behaviours
 {
     public class CustomShipStatus : MonoBehaviour
     {
-        public List<Action<NormalPlayerTask>> TaskInitializerList = new List<Action<NormalPlayerTask>>();
+        public Behaviours.TaskActionStorage TaskActions;
 
-        static public CustomShipStatus Instance;
+        static public CustomShipStatus? Instance;
+
+        public List<Ladder> Ladders;
+        public List<MovingPlatformBehaviour> MovingPlatformBehaviours;
 
         static CustomShipStatus()
         {
@@ -21,6 +24,10 @@ namespace Stargazer.Behaviours
         {
             enabled = true;
 
+            Ladders = new List<Ladder>();
+            MovingPlatformBehaviours = new List<MovingPlatformBehaviour>();
+
+            TaskActions = new TaskActionStorage();
         }
     }
 }

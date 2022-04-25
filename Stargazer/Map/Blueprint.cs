@@ -68,7 +68,8 @@ namespace Stargazer.Map
             Vents.Clear();
 
             //shipStatus.MapPrefab = UnityEditor.PrefabUtility.SaveAsPrefabAsset(shipStatus.MapPrefab.gameObject, "Stargazer/Minimap.prefab").GetComponent<MapBehaviour>();
-            shipStatus.MapPrefab = GameObject.Instantiate(shipStatus.MapPrefab);
+            shipStatus.MapPrefab = GameObject.Instantiate(shipStatus.MapPrefab, HudManager.Instance.transform);
+            shipStatus.MapPrefab.Close();
 
             if (blueprint.RequirePlainMap) CleanMiniMap(shipStatus.MapPrefab);
 

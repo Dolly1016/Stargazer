@@ -31,7 +31,8 @@ namespace Stargazer.Map.Builder
                 var pos = GameObject.transform.position;
                 GameObject.transform.position = new Vector3(pos.x, pos.y, pos.y / 1000f);
             }
-             GameObject.SetActive(true);
+            GameObject.transform.localScale = Scale;
+            GameObject.SetActive(true);
             GameObject.layer = LayerMask.NameToLayer("Ship");
 
             if (Sprite.GetSprite(blueprint) != null)

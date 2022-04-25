@@ -31,8 +31,4 @@
   <ItemGroup>
     <Folder Include="UnityObjects\" />
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Unity3D.SDK" Version="2021.1.14.1" />
-  </ItemGroup>
 </Project>

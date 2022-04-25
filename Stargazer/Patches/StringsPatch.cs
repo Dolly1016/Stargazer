@@ -35,7 +35,7 @@ namespace Stargazer.Patches
         }
     }
 
-    [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.GetStringWithDefault))]
+    [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.GetStringWithDefault),typeof(StringNames),typeof(string),typeof(UnhollowerBaseLib.Il2CppReferenceArray<Il2CppSystem.Object>))]
     public class CustomStringsPatch
     {
         public static bool Prefix([HarmonyArgument(0)] StringNames stringNames, ref string __result)

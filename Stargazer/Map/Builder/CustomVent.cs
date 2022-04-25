@@ -32,6 +32,7 @@ namespace Stargazer.Map.Builder
             GameObject = Vent.gameObject;
             GameObject.name = Name;
             GameObject.transform.localPosition = new Vector3(Position.x, Position.y, 4f);
+            GameObject.transform.localScale = Scale;
             GameObject.layer = LayerMask.NameToLayer("ShortObjects");
 
             shipStatus.AllVents = Helpers.AddToReferenceArray(shipStatus.AllVents, Vent);

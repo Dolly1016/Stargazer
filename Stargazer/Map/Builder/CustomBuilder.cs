@@ -25,7 +25,7 @@ namespace Stargazer.Map.Builder
 
         public Sprite? GetSprite(Blueprint blueprint)
         {
-            if (!isDirty) return Sprite;
+            if (!isDirty && Sprite) return Sprite;
             
             isDirty = false;
 
@@ -47,12 +47,24 @@ namespace Stargazer.Map.Builder
         public string Name { get; set; }
         public GameObject? GameObject { get; set; }
         public Vector3 Position { get; set; }
+        protected Vector3 Scale { get; set; }
 
         protected CustomBuilder(string name,Vector3 pos)
         {
             Name = name;
             Position = pos;
             GameObject = null;
+            Scale = new Vector3(1, 1, 1);
+        }
+
+        public void SetScale(float scale)
+        {
+            Scale = new Vector3(scale, scale, 1);
+        }
+
+        public void SetScale(float scaleX,float scaleY)
+        {
+            Scale = new Vector3(scaleX, scaleY, 1);
         }
 
         public virtual bool AddChild(CustomBuilder builder) => false;

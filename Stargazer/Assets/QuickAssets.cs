@@ -1,11 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 
 namespace Stargazer.Assets
 {
     public static class QuickAssets
     {
+        public static GameObject GetLadderBase()
+        {
+            return MapAssets.GetAsset(4).transform.FindChild("MeetingRoom").FindChild("ladder_meeting").gameObject;
+        }
+        public static Ladder GetLadder(bool isTop)
+        {
+            var ladderBase = GetLadderBase().transform;
+            var ladder = ladderBase.FindChild(isTop ? "LadderTop" : "LadderBottom");
+            return ladder.gameObject.GetComponent<Ladder>();
+        }
+
         public static Vent GetVent(byte type)
         {
             if (type == 0) return MapAssets.GetAsset(0).transform.GetComponentInChildren<Vent>();
@@ -18,7 +30,7 @@ namespace Stargazer.Assets
         {
             var prefab = GetMinigameOriginalPrefab(taskTypes,arg);
             if (prefab == null) return null;
-            //return UnityEditor.PrefabUtility.SaveAsPrefabAsset(prefab.gameObject, "Stargazer/Task/" + prefab.name + ".prefab").GetComponent<Minigame>();
+
             return prefab;
         }
 

@@ -21,6 +21,7 @@ namespace Stargazer.Map.Builder
             GameObject = new GameObject(Name);
             GameObject.transform.SetParent(parent);
             GameObject.transform.localPosition = Position;
+            GameObject.transform.localScale = Scale;
             GameObject.SetActive(true);
 
             var Collider = GameObject.AddComponent<EdgeCollider2D>();

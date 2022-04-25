@@ -25,6 +25,9 @@ namespace Stargazer.Patches
 
         public static bool Prefix(ShipStatus __instance)
         {
+            //初期化
+            Behaviours.CustomShipStatus.Instance = null;
+
             if (!Helpers.PlayingModMap()) return true;
 
             var blueprint = Map.AdditionalMapManager.GetBlueprint(PlayerControl.GameOptions.MapId);

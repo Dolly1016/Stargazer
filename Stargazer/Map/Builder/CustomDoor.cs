@@ -86,14 +86,10 @@ namespace Stargazer.Map.Builder
             if (!CustomDoorType.AllTypes.ContainsKey(DoorType)) return;
 
             PlainDoor? door = CustomDoorType.AllTypes[DoorType].PreBuild(this,blueprint,parent);
+            door.transform.localScale = Scale;
             if (door == null) return;
             door.Id = shipStatus.AllDoors.Count + 1;
             shipStatus.AllDoors = Helpers.AddToReferenceArray(shipStatus.AllDoors, door);
-        }
-
-        public override void PostBuild(Blueprint blueprint, ShipStatus shipStatus, Transform parent)
-        {
-
         }
     }
 }

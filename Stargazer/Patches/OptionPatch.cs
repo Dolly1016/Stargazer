@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using HarmonyLib;
+using UnityEngine;
+using System.Linq;
 
 namespace Stargazer.Patches
 {
@@ -17,6 +19,19 @@ namespace Stargazer.Patches
                 __instance.MapId = b;
             }
             return false;
+        }
+    }
+
+    [HarmonyPatch(typeof(GameSettingMenu), nameof(GameSettingMenu.InitializeOptions))]
+    public static class GameSettingMenuInitializePatch
+    {
+        public static void Prefix(GameSettingMenu __instance)
+        {
+            var defaultTransform = __instance.AllItems.FirstOrDefault(x => x.gameObject.activeSelf && x.name.Equals("ResetToDefault", StringComparison.OrdinalIgnoreCase));
+            if (defaultTransform != null)
+                __instance.HideForOnline = new Transform[] { defaultTransform };
+            else
+                __instance.HideForOnline = new Transform[] { };
         }
     }
 }

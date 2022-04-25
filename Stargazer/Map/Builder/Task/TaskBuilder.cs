@@ -174,12 +174,13 @@ namespace Stargazer.Map.Builder.Task
         protected void ScheduleSetStartAtRoomByConsoles(NormalPlayerTask task, List<string> consoles, ShipStatus shipStatus, Blueprint blueprint, Database.TaskData taskData)
         {
             var opt = task.gameObject.AddComponent<Behaviours.NormalPlayerTaskOption>();
-            int id = Behaviours.CustomShipStatus.Instance.TaskInitializerList.Count;
-            Behaviours.CustomShipStatus.Instance.TaskInitializerList.Add((task) =>
-            {
-                task.StartAt = GetStartAtRoomByConsoles(consoles, blueprint);
-            });
-            opt.InitializerId = id;
+            
+            opt.InitializerId.Set(Behaviours.CustomShipStatus.Instance.TaskActions.RegisterTaskInitializer(
+                (task) =>
+                {
+                    task.StartAt = GetStartAtRoomByConsoles(consoles, blueprint);
+                }
+                ));
         }
 
         protected void SetUpConsolesByList(List<string> consoles, ShipStatus shipStatus, Blueprint blueprint, Database.TaskData taskData,int step,Action<Console>? afterAction=null)
@@ -188,12 +189,10 @@ namespace Stargazer.Map.Builder.Task
             {
                 if (!blueprint.Consoles.ContainsKey(id)) continue;
                 var cc = blueprint.Consoles[id];
-
                 var console = SetUpConsole(cc, taskData,step);
                 shipStatus.AllConsoles = Helpers.AddToReferenceArray(shipStatus.AllConsoles, console);
                 console.Image = cc.GameObject.GetComponent<SpriteRenderer>();
                 console.Image.material = new Material(blueprint.HighlightMaterial);
-
                 SetUpButton(cc, blueprint, taskData);
                 SetUpCollider(cc, blueprint, taskData);
 
@@ -269,12 +268,13 @@ namespace Stargazer.Map.Builder.Task
             var result = base.BuildTask(shipStatus,taskHolder,blueprint,taskData);
             
             var opt = result.gameObject.AddComponent<Behaviours.NormalPlayerTaskOption>();
-            int id = Behaviours.CustomShipStatus.Instance.TaskInitializerList.Count;
-            Behaviours.CustomShipStatus.Instance.TaskInitializerList.Add((task) =>
-           {
-               task.gameObject.GetComponent<DivertPowerTask>().TargetSystem = GetStartAtRoomByConsoles(taskData.ConsoleList[1], blueprint);
-           });
-            opt.InitializerId=id;
+            
+            opt.InitializerId.Set(Behaviours.CustomShipStatus.Instance.TaskActions.RegisterTaskInitializer(
+                (task) =>
+                {
+                    task.gameObject.GetComponent<DivertPowerTask>().TargetSystem = GetStartAtRoomByConsoles(taskData.ConsoleList[1], blueprint);
+                }
+                ));
 
             return result;
         }

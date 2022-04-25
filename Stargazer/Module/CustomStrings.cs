@@ -132,9 +132,10 @@ namespace Stargazer.Module
             intDic[id] = this;
         }
 
+        //TODO: ここに追加のSystemTypesを表示する文字列に変換するメソッドを作る
         public string GetTranslatedString()
         {
-            return "Default";
+            return "Default Room";
         }
 
         public static bool IsCustomTaskTypes(TaskTypes taskTypes)
@@ -173,6 +174,7 @@ namespace Stargazer.Module
             intDic[id] = this;
         }
 
+        //TODO: ここに追加のStringNamesを表示する文字列に変換するメソッドを作る
         public string GetTranslatedString()
         {
             return "Default";
