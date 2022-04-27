@@ -57,7 +57,13 @@ namespace Stargazer.Map
                 UnityEngine.Object.Destroy(area.gameObject);
             mapBehaviour.countOverlay.CountAreas = new UnhollowerBaseLib.Il2CppReferenceArray<CounterArea>(0);
 
-            foreach(var text in mapBehaviour.transform.FindChild("RoomNames").GetComponentsInChildren<TMPro.TextMeshPro>())
+            foreach (var room in mapBehaviour.infectedOverlay.rooms)
+                UnityEngine.Object.Destroy(room.gameObject);
+            mapBehaviour.infectedOverlay.rooms = new UnhollowerBaseLib.Il2CppReferenceArray<MapRoom>(0);
+            mapBehaviour.infectedOverlay.allButtons = new UnhollowerBaseLib.Il2CppReferenceArray<ButtonBehavior>(0);
+            
+
+            foreach (var text in mapBehaviour.transform.FindChild("RoomNames").GetComponentsInChildren<TMPro.TextMeshPro>())
                 UnityEngine.Object.Destroy(text.gameObject);
         }
 
@@ -85,6 +91,7 @@ namespace Stargazer.Map
             if (MinimapConfiguration.CenterPosition == null)
                 MinimapConfiguration.CenterPosition = Module.MinimapSpriteGenerator.CalcCenter(shipStatus);
             shipStatus.MapScale = MinimapConfiguration.MapScale;
+            shipStatus.MapPrefab.transform.FindChild("HereIndicatorParent").localPosition = (Vector3)(-MinimapConfiguration.CenterPosition / MinimapConfiguration.MapScale);
 
             GameObject = shipStatus.gameObject;
             GameObject.SetName(GameObject, Name + "Status");
@@ -119,6 +126,19 @@ namespace Stargazer.Map
                         shipStatus.NormalTasks = Helpers.AddToReferenceArray(shipStatus.NormalTasks, result);
                         break;
                 }
+            }
+
+            //タスクが存在しない場合にゲームが始まらない問題を回避
+            if (shipStatus.CommonTasks.Count == 0) shipStatus.CommonTasks = Helpers.AddToReferenceArray(shipStatus.CommonTasks, Builder.Task.TaskBuilder.GenerateDefaultTask());
+            if (shipStatus.LongTasks.Count == 0) shipStatus.LongTasks = Helpers.AddToReferenceArray(shipStatus.LongTasks, Builder.Task.TaskBuilder.GenerateDefaultTask());
+            if (shipStatus.NormalTasks.Count == 0) shipStatus.NormalTasks = Helpers.AddToReferenceArray(shipStatus.NormalTasks, Builder.Task.TaskBuilder.GenerateDefaultTask());
+
+            //マップの最終設定
+            shipStatus.MapPrefab.infectedOverlay.SabSystem = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
+            ISystemType systemType;
+            if (ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Doors, out systemType))
+            {
+                shipStatus.MapPrefab.infectedOverlay.doors = systemType.Cast<IActivatable>();
             }
         }
 

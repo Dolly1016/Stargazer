@@ -76,5 +76,11 @@ namespace Stargazer
         {
             return Behaviours.CustomShipStatus.Instance != null;
         }
+
+        public static void AlignZ(this Transform transform)
+        {
+            var pos = transform.position;
+            transform.position = new Vector3(pos.x, pos.y, pos.z / 1000f);
+        }
     }
 }

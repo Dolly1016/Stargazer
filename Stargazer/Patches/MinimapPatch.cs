@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using HarmonyLib;
+using UnityEngine;
 
 namespace Stargazer.Patches
 {
@@ -19,4 +20,5 @@ namespace Stargazer.Patches
             }
         }
     }
+
 }

@@ -25,6 +25,7 @@ namespace Stargazer.Module
 
         static public Vector2 ConvertToMapPos(Vector2 pos,Blueprint blueprint)
         {
+            pos = pos - (Vector2)ShipStatus.Instance.transform.position;
             var center = blueprint.MinimapConfiguration.CenterPosition ?? Vector2.zero;
             var scale = blueprint.MinimapConfiguration.MapScale;
             return (pos - center)/scale;

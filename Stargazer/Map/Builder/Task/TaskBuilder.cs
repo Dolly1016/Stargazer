@@ -149,7 +149,7 @@ namespace Stargazer.Map.Builder.Task
             return task;
         }
 
-        protected void InitializePlayerTask(NormalPlayerTask task,Database.TaskData taskData)
+        protected static void InitializePlayerTask(NormalPlayerTask task,Database.TaskData taskData)
         {
             task.MaxStep = taskData.MaxSteps;
             task.ShowTaskStep = taskData.ShowTaskSteps && task.MaxStep > 1;
@@ -161,6 +161,15 @@ namespace Stargazer.Map.Builder.Task
             task.StartAt = taskData.StartAt;
             task.Length = Database.TaskData.ConvertLength(taskData.TaskCategory);
             task.MinigamePrefab = Assets.QuickAssets.GetMinigamePrefab(taskData.TaskType,taskData.TaskTypeArgument);
+        }
+
+        public static NormalPlayerTask GenerateDefaultTask()
+        {
+            GameObject holder = new GameObject("DefaultTask");
+            var task = holder.AddComponent<NormalPlayerTask>();
+            var data = new Database.TaskData();
+            InitializePlayerTask(task,data);
+            return task;
         }
 
         protected SystemTypes GetStartAtRoomByConsoles(List<string> consoles,Blueprint blueprint)

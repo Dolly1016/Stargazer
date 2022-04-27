@@ -7,6 +7,11 @@ namespace Stargazer.Assets
 {
     public static class QuickAssets
     {
+        public static GameObject GetDoorSabotageButton()
+        {
+            return MapAssets.GetAsset(0).MapPrefab.infectedOverlay.rooms[0].door.gameObject;
+        } 
+
         public static GameObject GetLadderBase()
         {
             return MapAssets.GetAsset(4).transform.FindChild("MeetingRoom").FindChild("ladder_meeting").gameObject;

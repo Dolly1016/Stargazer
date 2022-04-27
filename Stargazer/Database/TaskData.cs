@@ -43,7 +43,7 @@ namespace Stargazer.Database
         public TaskData()
         {
             ConsoleList = new List<List<string>>();
-            TaskType = TaskTypes.FixWiring;
+            TaskType = TaskTypes.SwipeCard;
             MaxSteps = 1;
             TaskCategory = TaskCategory.CommonTask;
             TaskTypeArgument = 0;

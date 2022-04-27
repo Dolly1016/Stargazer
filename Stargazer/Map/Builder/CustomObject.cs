@@ -26,11 +26,8 @@ namespace Stargazer.Map.Builder
             GameObject = new GameObject(Name);
             GameObject.transform.SetParent(parent);
             GameObject.transform.localPosition = new Vector3(Position.x, Position.y, IsFront ? -2f : 4f);
-            if (!(IsBack || IsFront))
-            {
-                var pos = GameObject.transform.position;
-                GameObject.transform.position = new Vector3(pos.x, pos.y, pos.y / 1000f);
-            }
+            if (!(IsBack || IsFront))GameObject.transform.AlignZ();
+            
             GameObject.transform.localScale = Scale;
             GameObject.SetActive(true);
             GameObject.layer = LayerMask.NameToLayer("Ship");

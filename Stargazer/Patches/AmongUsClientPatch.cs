@@ -14,9 +14,10 @@ namespace Stargazer.Patches
         {
             Module.CustomSystemTypes.LoadVanillaSystemTypes();
             Module.CustomTaskTypes.LoadVanillaTaskTypes();
-
+            
             Assets.MapAssets.LoadAssets(__instance);
             Map.Builder.Task.TaskBuilder.LoadVanillaTaskBuilders();
+            Map.Builder.CustomDoorType.LoadVanillaDoorType();
 
             /* ここに追加マップ読み込み部を入れる */
 

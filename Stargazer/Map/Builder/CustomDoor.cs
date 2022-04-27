@@ -75,10 +75,11 @@ namespace Stargazer.Map.Builder
         public bool IsVert { get; set; }
         public string DoorType { get; set; }
 
-        public CustomDoor(string name, Vector2 pos, SystemTypes roomId) : base(name, pos)
+        public CustomDoor(string name, Vector2 pos, SystemTypes roomId,bool isVert) : base(name, pos)
         {
             RoomId = roomId;
             DoorType = "SkeldDoor";
+            IsVert = isVert;
         }
 
         public override void PreBuild(Blueprint blueprint, ShipStatus shipStatus, Transform parent)
@@ -86,7 +87,13 @@ namespace Stargazer.Map.Builder
             if (!CustomDoorType.AllTypes.ContainsKey(DoorType)) return;
 
             PlainDoor? door = CustomDoorType.AllTypes[DoorType].PreBuild(this,blueprint,parent);
-            door.transform.localScale = Scale;
+            door.transform.localPosition = new Vector3(Position.x, Position.y, Position.y / 1000f);
+
+            //z座標合わせ
+            var pos = door.transform.position;
+            door.transform.position = new Vector3(pos.x, pos.y, pos.y / 1000f);
+
+            door.transform.AlignZ();
             if (door == null) return;
             door.Id = shipStatus.AllDoors.Count + 1;
             shipStatus.AllDoors = Helpers.AddToReferenceArray(shipStatus.AllDoors, door);

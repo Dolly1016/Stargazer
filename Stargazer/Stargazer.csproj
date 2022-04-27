@@ -12,9 +12,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <WarningLevel>4</WarningLevel>
-    <DefineConstants>$(DefineConstants);STEAM</DefineConstants>
+    <WarningLevel>1</WarningLevel>
+    <DefineConstants>TRACE;STEAM</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -31,4 +33,12 @@
   <ItemGroup>
     <Folder Include="UnityObjects\" />
   </ItemGroup>
+
+  <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
+      <Message Text="Second occurrence" />
+      <Copy SourceFiles="bin\Release\netstandard2.1\Stargazer.dll" DestinationFolder="$(AmongUsPlugins)\" />
+      <Copy SourceFiles="bin\Release\netstandard2.1\Stargazer.dll" DestinationFolder="$(AmongUsSPlugins)\" />
+      <Copy SourceFiles="bin\Release\netstandard2.1\Stargazer.dll" DestinationFolder="$(AmongUsRelease)\" />
+  </Target>
+
 </Project>
