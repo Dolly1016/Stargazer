@@ -7,13 +7,21 @@ using Assets.CoreScripts;
 
 namespace Stargazer.Patches
 {
+    public static class TaskPatches
+    {
+        public static void InitializePrefix(NormalPlayerTask __instance)
+        {
+            var opt = __instance.gameObject.GetComponent<Behaviours.NormalPlayerTaskOption>();
+            if (!opt) return;
+            opt.Initialize();
+        }
+    }
+
     [HarmonyPatch(typeof(NormalPlayerTask), nameof(NormalPlayerTask.Initialize))]
     public static class TaskInitializePatch
     {
         public static void Prefix(NormalPlayerTask __instance) {
-            var opt = __instance.gameObject.GetComponent<Behaviours.NormalPlayerTaskOption>();
-            if (!opt) return;
-            opt.Initialize();
+            TaskPatches.InitializePrefix(__instance);
         }
     }
 

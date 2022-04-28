@@ -99,6 +99,13 @@ namespace Stargazer.Module
             if (IsCustomSystemTypes(systemTypes)) return intDic[(int)systemTypes];
             return null;
         }
+
+        public static SystemTypes GetSystemTypes(string id)
+        {
+            if (vanillaDic.ContainsKey(id)) return vanillaDic[id];
+            if (stringDic.ContainsKey(id)) return (SystemTypes)stringDic[id].Id;
+            return SystemTypes.Hallway;
+        }
     }
 
     public class CustomTaskTypes
@@ -148,10 +155,18 @@ namespace Stargazer.Module
             if (IsCustomTaskTypes(taskTypes)) return intDic[(int)taskTypes];
             return null;
         }
+
+        public static TaskTypes GetTaskTypes(string id)
+        {
+            if (vanillaDic.ContainsKey(id)) return vanillaDic[id];
+            if (stringDic.ContainsKey(id)) return (TaskTypes)stringDic[id].Id;
+            return TaskTypes.None;
+        }
     }
 
     public class CustomStrings
     {
+        static private Dictionary<string, StringNames> vanillaDic = new Dictionary<string, StringNames>();
         static private Dictionary<string, CustomStrings> stringDic = new Dictionary<string, CustomStrings>();
         static private Dictionary<int, CustomStrings> intDic = new Dictionary<int, CustomStrings>();
         static private int availableId = 128;

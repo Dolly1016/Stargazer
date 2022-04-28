@@ -10,6 +10,8 @@ namespace Stargazer.Map.Builder
         public bool IsFront { get; set; }
 
         public bool IsBack { get; set; }
+        public bool CanUseCustomZ { get; set; }
+        public float CustomZ { get; set; }
 
         public SpriteRenderer Renderer { get; private set; }
         public AddressableSprite Sprite { get; set; }
@@ -21,13 +23,26 @@ namespace Stargazer.Map.Builder
             Sprite = new AddressableSprite();
         }
 
+        public void UseCustomZ(bool canUse,float customZ=0f)
+        {
+            CanUseCustomZ = canUse;
+            CustomZ = customZ;
+        }
+
         public override void PreBuild(Blueprint blueprint, ShipStatus shipStatus, Transform parent)
         {
             GameObject = new GameObject(Name);
             GameObject.transform.SetParent(parent);
-            GameObject.transform.localPosition = new Vector3(Position.x, Position.y, IsFront ? -2f : 4f);
-            if (!(IsBack || IsFront))GameObject.transform.AlignZ();
-            
+            if (CanUseCustomZ)
+            {
+                GameObject.transform.localPosition = new Vector3(Position.x, Position.y, CustomZ);
+            }
+            else
+            {
+                GameObject.transform.localPosition = new Vector3(Position.x, Position.y, IsFront ? -2f : 4f);
+                if (!(IsBack || IsFront)) GameObject.transform.AlignZ();
+            }
+
             GameObject.transform.localScale = Scale;
             GameObject.SetActive(true);
             GameObject.layer = LayerMask.NameToLayer("Ship");

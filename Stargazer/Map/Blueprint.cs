@@ -128,10 +128,14 @@ namespace Stargazer.Map
                 }
             }
 
+            UnityEngine.Debug.Log("1");
+
             //タスクが存在しない場合にゲームが始まらない問題を回避
             if (shipStatus.CommonTasks.Count == 0) shipStatus.CommonTasks = Helpers.AddToReferenceArray(shipStatus.CommonTasks, Builder.Task.TaskBuilder.GenerateDefaultTask());
             if (shipStatus.LongTasks.Count == 0) shipStatus.LongTasks = Helpers.AddToReferenceArray(shipStatus.LongTasks, Builder.Task.TaskBuilder.GenerateDefaultTask());
             if (shipStatus.NormalTasks.Count == 0) shipStatus.NormalTasks = Helpers.AddToReferenceArray(shipStatus.NormalTasks, Builder.Task.TaskBuilder.GenerateDefaultTask());
+
+            UnityEngine.Debug.Log("2");
 
             //マップの最終設定
             shipStatus.MapPrefab.infectedOverlay.SabSystem = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
@@ -140,6 +144,8 @@ namespace Stargazer.Map
             {
                 shipStatus.MapPrefab.infectedOverlay.doors = systemType.Cast<IActivatable>();
             }
+
+            UnityEngine.Debug.Log("3");
         }
 
         public string GetAddressPrefix()

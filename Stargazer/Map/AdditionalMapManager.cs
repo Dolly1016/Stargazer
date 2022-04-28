@@ -17,13 +17,45 @@ namespace Stargazer.Map
             b.BaseMapId = 1;
             b.RequirePlainMap = true;
 
-            Builder.CustomObject obj = new Builder.CustomObject("Map",Vector2.zero);
-            obj.SetScale(0.7f);
-            obj.Sprite.SetAddress("Map.png");
-            b.AddChild(obj);
-
             b.MinimapConfiguration.CenterPosition = new Vector2(0, 3);
             b.MinimapConfiguration.MapScale = 7f;
+
+            Builder.CustomConsole console;
+            Database.TaskData task;
+
+            console = new Builder.CustomConsole("Download1","Download1",new Vector2(11.5f,-1.07f),SystemTypes.Balcony);
+            console.Sprite.SetAddress("/panel_data");
+            console.SetScale(0.7f);
+            console.TaskConsoleId = 1;
+            b.AddChild(console);
+
+            console = new Builder.CustomConsole("Download2", "Download2", new Vector2(-11.66f, 15.4f), SystemTypes.Armory);
+            console.Sprite.SetAddress("/panel_data");
+            console.SetScale(0.7f);
+            console.TaskConsoleId = 2;
+            b.AddChild(console);
+
+            console = new Builder.CustomConsole("Upload", "Upload", new Vector2(-7.26f, 7.2f), SystemTypes.Security);
+            console.Sprite.SetAddress("/panel_data");
+            console.SetScale(0.7f);
+            console.TaskConsoleId = 0;
+            b.AddChild(console);
+
+            Builder.CustomObject obj = new Builder.CustomObject("Map", Vector2.zero);
+            obj.SetScale(0.7f);
+            obj.Sprite.SetAddress("Map.png");
+            obj.UseCustomZ(true, 5f);
+            b.AddChild(obj);
+
+            task = new Database.TaskData();
+            task.ConsoleList.Add(new List<string>(new string[]{ "Download1", "Download2" }));
+            task.ConsoleList.Add(new List<string>(new string[] { "Upload" }));
+            task.MaxSteps = 2;
+            task.TaskCategory = Database.TaskCategory.ShortTask;
+            task.TaskType = TaskTypes.UploadData;
+            task.TaskTypeArgument = 0;
+            b.RegisterTask(task);
+            
 
             AdditionalMaps.Add(b);
             

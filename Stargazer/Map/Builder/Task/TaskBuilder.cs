@@ -161,6 +161,7 @@ namespace Stargazer.Map.Builder.Task
             task.StartAt = taskData.StartAt;
             task.Length = Database.TaskData.ConvertLength(taskData.TaskCategory);
             task.MinigamePrefab = Assets.QuickAssets.GetMinigamePrefab(taskData.TaskType,taskData.TaskTypeArgument);
+            task.Arrow = GameObject.Instantiate(Assets.MapAssets.GetAsset(0).NormalTasks[0].Arrow, task.gameObject.transform);
         }
 
         public static NormalPlayerTask GenerateDefaultTask()
@@ -262,9 +263,42 @@ namespace Stargazer.Map.Builder.Task
 
     public class UploadTaskBuilder : TaskBuilder
     {
+        protected override NormalPlayerTask SetUpPlayerTask(GameObject taskHolder, Database.TaskData taskData)
+        {
+            NormalPlayerTask task;
+            if (taskData.TaskTypeArgument == 0)
+            {
+                task = taskHolder.AddComponent<UploadDataTask>();
+            }
+            else
+            {
+                task = taskHolder.AddComponent<AirshipUploadTask>();
+            }
+
+            InitializePlayerTask(task, taskData);
+
+            return task;
+        }
+
         public override NormalPlayerTask BuildTask(ShipStatus shipStatus, GameObject taskHolder, Blueprint blueprint, Database.TaskData taskData)
         {
             var task = base.BuildTask(shipStatus, taskHolder, blueprint, taskData);
+            if (taskData.TaskTypeArgument == 0)
+                task.GetComponent<UploadDataTask>().EndAt = blueprint.Consoles[taskData.ConsoleList[1][0]].RoomId;
+
+            foreach (string console in taskData.ConsoleList[0])
+            {
+                if (!blueprint.Consoles.ContainsKey(console)) continue;
+                var cc = blueprint.Consoles[console];
+                cc.GameObject.GetComponent<Console>().TaskTypes = new TaskTypes[0];
+            }
+            foreach (string console in taskData.ConsoleList[1])
+            {
+                if (!blueprint.Consoles.ContainsKey(console)) continue;
+                var cc = blueprint.Consoles[console];
+                cc.GameObject.GetComponent<Console>().ValidTasks = new UnhollowerBaseLib.Il2CppReferenceArray<TaskSet>(0);
+            }
+
             ScheduleSetStartAtRoomByConsoles(task,taskData.ConsoleList[0],shipStatus,blueprint,taskData);
             return task;
         }
