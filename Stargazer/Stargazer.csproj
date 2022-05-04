@@ -36,7 +36,6 @@
 
   <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
       <Message Text="Second occurrence" />
-      <Copy SourceFiles="bin\Release\netstandard2.1\Stargazer.dll" DestinationFolder="$(AmongUsPlugins)\" />
       <Copy SourceFiles="bin\Release\netstandard2.1\Stargazer.dll" DestinationFolder="$(AmongUsSPlugins)\" />
       <Copy SourceFiles="bin\Release\netstandard2.1\Stargazer.dll" DestinationFolder="$(AmongUsRelease)\" />
   </Target>

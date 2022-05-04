@@ -11,7 +11,8 @@ namespace Stargazer.Module
         static private Dictionary<string, string> spriteAddressDic = new Dictionary<string, string>();
         static private Dictionary<string, CustomImageNames> stringDic = new Dictionary<string, CustomImageNames>();
         static private Dictionary<int, CustomImageNames> intDic = new Dictionary<int, CustomImageNames>();
-        static private int availableId = 128;
+        private const int AVAILABLE_MIN_ID = 128;
+        static private int availableId = AVAILABLE_MIN_ID;
 
         private int Id;
         private string Name,Address;
@@ -21,6 +22,12 @@ namespace Stargazer.Module
         {
             if (stringDic.ContainsKey(name)) return stringDic[name];
             return new CustomImageNames(name, address, availableId++);
+        }
+
+        public static void ClearCustomStrings()
+        {
+            availableId = AVAILABLE_MIN_ID;
+            stringDic.Clear();
         }
 
         private CustomImageNames(string name,string address, int id)
@@ -58,10 +65,12 @@ namespace Stargazer.Module
         static private Dictionary<string, SystemTypes> vanillaDic = new Dictionary<string, SystemTypes>();
         static private Dictionary<string, CustomSystemTypes> stringDic = new Dictionary<string, CustomSystemTypes>();
         static private Dictionary<int, CustomSystemTypes> intDic = new Dictionary<int, CustomSystemTypes>();
-        static private int availableId = 128;
+        private const int AVAILABLE_MIN_ID = 128;
+        static private int availableId = AVAILABLE_MIN_ID;
 
         private int Id;
         private string Name;
+        public string Text="None";
 
         public static void LoadVanillaSystemTypes()
         {
@@ -75,6 +84,12 @@ namespace Stargazer.Module
             return new CustomSystemTypes(name,availableId++);
         }
 
+        public static void ClearCustomStrings()
+        {
+            availableId = AVAILABLE_MIN_ID;
+            stringDic.Clear();
+        }
+
         private CustomSystemTypes(string name,int id)
         {
             Name = name;
@@ -86,7 +101,7 @@ namespace Stargazer.Module
 
         public string GetTranslatedString()
         {
-            return "Default";
+            return Text;
         }
 
         public static bool IsCustomSystemTypes(SystemTypes systemTypes)
@@ -113,10 +128,12 @@ namespace Stargazer.Module
         static private Dictionary<string, TaskTypes> vanillaDic = new Dictionary<string, TaskTypes>();
         static private Dictionary<string, CustomTaskTypes> stringDic = new Dictionary<string, CustomTaskTypes>();
         static private Dictionary<int, CustomTaskTypes> intDic = new Dictionary<int, CustomTaskTypes>();
-        static private int availableId = 128;
+        private const int AVAILABLE_MIN_ID = 128;
+        static private int availableId = AVAILABLE_MIN_ID;
 
         private int Id;
         private string Name;
+        public string Text = "Default Room";
 
         public static void LoadVanillaTaskTypes()
         {
@@ -130,6 +147,12 @@ namespace Stargazer.Module
             return new CustomTaskTypes(name, availableId++);
         }
 
+        public static void ClearCustomStrings()
+        {
+            availableId = AVAILABLE_MIN_ID;
+            stringDic.Clear();
+        }
+
         private CustomTaskTypes(string name, int id)
         {
             Name = name;
@@ -139,10 +162,9 @@ namespace Stargazer.Module
             intDic[id] = this;
         }
 
-        //TODO: ここに追加のSystemTypesを表示する文字列に変換するメソッドを作る
         public string GetTranslatedString()
         {
-            return "Default Room";
+            return Text;
         }
 
         public static bool IsCustomTaskTypes(TaskTypes taskTypes)
@@ -169,15 +191,23 @@ namespace Stargazer.Module
         static private Dictionary<string, StringNames> vanillaDic = new Dictionary<string, StringNames>();
         static private Dictionary<string, CustomStrings> stringDic = new Dictionary<string, CustomStrings>();
         static private Dictionary<int, CustomStrings> intDic = new Dictionary<int, CustomStrings>();
-        static private int availableId = 128;
+        private const int AVAILABLE_MIN_ID = 4096;
+        static private int availableId = AVAILABLE_MIN_ID;
 
         private int Id;
         private string Name;
+        public string Text = "None";
 
         public static CustomStrings RegisterStrings(string name)
         {
             if (stringDic.ContainsKey(name)) return stringDic[name];
             return new CustomStrings(name, availableId++);
+        }
+
+        public static void ClearCustomStrings()
+        {
+            availableId = AVAILABLE_MIN_ID;
+            stringDic.Clear();
         }
 
         private CustomStrings(string name, int id)
@@ -189,10 +219,9 @@ namespace Stargazer.Module
             intDic[id] = this;
         }
 
-        //TODO: ここに追加のStringNamesを表示する文字列に変換するメソッドを作る
         public string GetTranslatedString()
         {
-            return "Default";
+            return Text;
         }
 
         public static bool IsCustomStrings(StringNames stringNames)
@@ -204,6 +233,13 @@ namespace Stargazer.Module
         {
             if (IsCustomStrings(stringNames)) return intDic[(int)stringNames];
             return null;
+        }
+
+        public static StringNames GetStringNames(string id)
+        {
+            if (vanillaDic.ContainsKey(id)) return vanillaDic[id];
+            if (stringDic.ContainsKey(id)) return (StringNames)stringDic[id].Id;
+            return StringNames.ErrorInvalidGameOptions;
         }
     }
 }

@@ -20,8 +20,15 @@ namespace Stargazer.Map
             b.MinimapConfiguration.CenterPosition = new Vector2(0, 3);
             b.MinimapConfiguration.MapScale = 7f;
 
+            Builder.CustomShipRoom room;
             Builder.CustomConsole console;
             Database.TaskData task;
+
+            Module.CustomSystemTypes.RegisterSystemTypes("TestRoom").Text="Test";
+            Module.CustomStrings.RegisterStrings("TestRoom").Text = "Test Room";
+            room = new Builder.CustomShipRoom("Room",Module.CustomSystemTypes.GetSystemTypes("TestRoom"),Module.CustomStrings.GetStringNames("TestRoom"),Vector2.zero);
+            room.SetEdge(new Vector2(-1, -1), new Vector2(-1, 1), new Vector2(1, 1), new Vector2(1, -1));
+            room.Sprite.SetAddress("Room.png");
 
             console = new Builder.CustomConsole("Download1","Download1",new Vector2(11.5f,-1.07f),SystemTypes.Balcony);
             console.Sprite.SetAddress("/panel_data");
