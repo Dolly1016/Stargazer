@@ -35,10 +35,9 @@ namespace Stargazer.Patches
         }
     }
 
-    [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.GetStringWithDefault),typeof(StringNames),typeof(string),typeof(UnhollowerBaseLib.Il2CppReferenceArray<Il2CppSystem.Object>))]
-    public class CustomStringsPatch
+    public static class CustomStringsBasePatch
     {
-        public static bool Prefix([HarmonyArgument(0)] StringNames stringNames, ref string __result)
+        public static bool Prefix(StringNames stringNames, ref string __result)
         {
             if (CustomStrings.IsCustomStrings(stringNames))
             {
@@ -46,6 +45,24 @@ namespace Stargazer.Patches
                 return false;
             }
             return true;
+        }
+    }
+
+    [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.GetStringWithDefault),typeof(StringNames),typeof(string),typeof(UnhollowerBaseLib.Il2CppReferenceArray<Il2CppSystem.Object>))]
+    public class CustomStringsDefPatch
+    {
+        public static bool Prefix(ref string __result,[HarmonyArgument(0)] StringNames id)
+        {
+            return CustomStringsBasePatch.Prefix(id, ref __result);
+        }
+    }
+
+    [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.GetString), typeof(StringNames), typeof(UnhollowerBaseLib.Il2CppReferenceArray<Il2CppSystem.Object>))]
+    public class CustomStringsPatch
+    {
+        public static bool Prefix(ref string __result,[HarmonyArgument(0)] StringNames id)
+        {
+            return CustomStringsBasePatch.Prefix(id, ref __result);
         }
     }
 
@@ -60,6 +77,38 @@ namespace Stargazer.Patches
                 return false;
             }
             return true;
+        }
+    }
+
+    [HarmonyPatch(typeof(TextTranslatorTMP), nameof(TextTranslatorTMP.ResetText))]
+    public class ResetTextPatch
+    {
+        public static bool Prefix(TextTranslatorTMP __instance)
+        {
+            if (__instance.ResetOnlyWhenNoDefault && (__instance.defaultStr != null || __instance.defaultStr != ""))
+            {
+                return false;
+            }
+            if (!Module.CustomStrings.IsCustomStrings(__instance.TargetText)) return true;
+
+            TMPro.TextMeshPro component = __instance.GetComponent<TMPro.TextMeshPro>();
+            string text = CustomStrings.GetCustomStrings(__instance.TargetText)?.GetTranslatedString() ?? "";
+            if (__instance.ToUpper)
+            {
+                text = text.ToUpperInvariant();
+            }
+            if (component != null)
+            {
+                component.text = text;
+                component.ForceMeshUpdate(false, false);
+            }
+            else
+            {
+                TMPro.TextMeshProUGUI component2 = __instance.GetComponent<TMPro.TextMeshProUGUI>();
+                component2.text = text;
+                component2.ForceMeshUpdate(false, false);
+            }
+            return false;
         }
     }
 }

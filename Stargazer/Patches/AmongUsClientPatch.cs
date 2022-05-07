@@ -32,12 +32,15 @@ namespace Stargazer.Patches
         [HarmonyPrefix]
         public static void Postfix(AmongUsClient __instance,ref Il2CppSystem.Collections.IEnumerator __result)
         {
-            __result = Effects.Sequence(__result,Effects.Action((Il2CppSystem.Action)(()=> {
+            var list = new UnhollowerBaseLib.Il2CppReferenceArray<Il2CppSystem.Collections.IEnumerator>(2);
+            list[0] = __result;
+            list[1] = Effects.Action((Il2CppSystem.Action)(() => {
                 Module.CustomImageNames.ClearCustomStrings();
                 Module.CustomStrings.ClearCustomStrings();
                 Module.CustomSystemTypes.ClearCustomStrings();
                 Module.CustomTaskTypes.ClearCustomStrings();
-            })));
+            }));
+            __result = Effects.Sequence(list);
 
 
         }

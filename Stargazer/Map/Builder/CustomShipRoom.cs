@@ -72,7 +72,7 @@ namespace Stargazer.Map.Builder
             collider.isTrigger = true;
             ShipRoom.roomArea = collider;
             shipStatus.AllRooms = Helpers.AddToReferenceArray<PlainShipRoom>(shipStatus.AllRooms, ShipRoom);
-            shipStatus.FastRooms[RoomId] = ShipRoom;
+            shipStatus.FastRooms.set_Item(RoomId,ShipRoom);
 
             if (RoomOverray != null)
             {

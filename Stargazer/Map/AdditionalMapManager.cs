@@ -24,13 +24,15 @@ namespace Stargazer.Map
             Builder.CustomConsole console;
             Database.TaskData task;
 
-            Module.CustomSystemTypes.RegisterSystemTypes("TestRoom").Text="Test";
-            Module.CustomStrings.RegisterStrings("TestRoom").Text = "Test Room";
-            room = new Builder.CustomShipRoom("Room",Module.CustomSystemTypes.GetSystemTypes("TestRoom"),Module.CustomStrings.GetStringNames("TestRoom"),Vector2.zero);
+            Module.CustomSystemTypes.RegisterSystemTypes("Shelter").Text= "Shelter";
+            Module.CustomStrings.RegisterStrings("Shelter").Text = "Shelter";
+            room = new Builder.CustomShipRoom("Room",Module.CustomSystemTypes.GetSystemTypes("Shelter"),Module.CustomStrings.GetStringNames("Shelter"),Vector2.zero);
             room.SetEdge(new Vector2(-1, -1), new Vector2(-1, 1), new Vector2(1, 1), new Vector2(1, -1));
             room.Sprite.SetAddress("Room.png");
+            room.RoomOverray = new Builder.CustomShipRoom.RoomOverrayBuilder();
+            b.AddChild(room);
 
-            console = new Builder.CustomConsole("Download1","Download1",new Vector2(11.5f,-1.07f),SystemTypes.Balcony);
+            console = new Builder.CustomConsole("Download1", "Download1", new Vector2(11.5f, -1.07f), Module.CustomSystemTypes.GetSystemTypes("Shelter"));
             console.Sprite.SetAddress("/panel_data");
             console.SetScale(0.7f);
             console.TaskConsoleId = 1;
@@ -78,7 +80,7 @@ namespace Stargazer.Map
         static public void AddPrefabs(AmongUsClient client)
         {
             foreach (var additionalMap in AdditionalMaps)
-                client.ShipPrefabs.Add(client.ShipPrefabs[additionalMap.BaseMapId]);
+                client.ShipPrefabs.Add(client.ShipPrefabs.get_Item(additionalMap.BaseMapId));
         }
 
         static public Blueprint? GetBlueprint(byte mapId)

@@ -57,10 +57,10 @@ namespace Stargazer.Map
             shipStatus.Systems.Add(SystemTypes.Laboratory, new ReactorSystemType(60f, SystemTypes.Laboratory).Cast<ISystemType>());
             shipStatus.Systems.Add(SystemTypes.Doors, new AutoDoorsSystemType().Cast<ISystemType>());
             shipStatus.Systems.Add(SystemTypes.Sabotage, new SabotageSystemType(new IActivatable[] {
-                shipStatus.Systems[SystemTypes.Electrical].Cast<IActivatable>(),
-                shipStatus.Systems[SystemTypes.Comms].Cast<IActivatable>(),
-                shipStatus.Systems[SystemTypes.Laboratory].Cast<IActivatable>(),
-                shipStatus.Systems[SystemTypes.Doors].Cast<IActivatable>()
+                shipStatus.Systems.get_Item(SystemTypes.Electrical).Cast<IActivatable>(),
+                shipStatus.Systems.get_Item(SystemTypes.Comms).Cast<IActivatable>(),
+                shipStatus.Systems.get_Item(SystemTypes.Laboratory).Cast<IActivatable>(),
+                shipStatus.Systems.get_Item(SystemTypes.Doors).Cast<IActivatable>()
             }).Cast<ISystemType>());
 
             //

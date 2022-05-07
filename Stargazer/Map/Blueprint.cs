@@ -100,11 +100,11 @@ namespace Stargazer.Map
 
         public override void PostBuild(Blueprint blueprint, ShipStatus shipStatus, Transform parent)
         {
+
             PostBuildChildren(blueprint,shipStatus);
 
             GameObject manager = new GameObject("TaskManager");
             manager.transform.SetParent(shipStatus.transform);
-
             foreach (var task in TaskDatabase)
             {
                 if (!Builder.Task.TaskBuilder.TaskBuilders.ContainsKey(task.TaskType)) continue;
@@ -113,7 +113,7 @@ namespace Stargazer.Map
                 obj.transform.SetParent(manager.transform);
 
                 var result = Builder.Task.TaskBuilder.TaskBuilders[task.TaskType].BuildTask(shipStatus,obj, this, task);
-                
+
                 switch (task.TaskCategory)
                 {
                     case Database.TaskCategory.CommonTask:
@@ -127,19 +127,17 @@ namespace Stargazer.Map
                         break;
                 }
             }
-
             //タスクが存在しない場合にゲームが始まらない問題を回避
             if (shipStatus.CommonTasks.Count == 0) shipStatus.CommonTasks = Helpers.AddToReferenceArray(shipStatus.CommonTasks, Builder.Task.TaskBuilder.GenerateDefaultTask());
             if (shipStatus.LongTasks.Count == 0) shipStatus.LongTasks = Helpers.AddToReferenceArray(shipStatus.LongTasks, Builder.Task.TaskBuilder.GenerateDefaultTask());
             if (shipStatus.NormalTasks.Count == 0) shipStatus.NormalTasks = Helpers.AddToReferenceArray(shipStatus.NormalTasks, Builder.Task.TaskBuilder.GenerateDefaultTask());
-
+            
             //マップの最終設定
-            shipStatus.MapPrefab.infectedOverlay.SabSystem = ShipStatus.Instance.Systems[SystemTypes.Sabotage].Cast<SabotageSystemType>();
-            ISystemType systemType;
-            if (ShipStatus.Instance.Systems.TryGetValue(SystemTypes.Doors, out systemType))
-            {
-                shipStatus.MapPrefab.infectedOverlay.doors = systemType.Cast<IActivatable>();
-            }
+            shipStatus.MapPrefab.infectedOverlay.SabSystem = ShipStatus.Instance.Systems.get_Item(SystemTypes.Sabotage).Cast<SabotageSystemType>();
+            
+            if(shipStatus.Systems.ContainsKey(SystemTypes.Doors))
+                shipStatus.MapPrefab.infectedOverlay.doors = shipStatus.Systems.get_Item(SystemTypes.Doors).Cast<IActivatable>();
+            
         }
 
         public string GetAddressPrefix()
